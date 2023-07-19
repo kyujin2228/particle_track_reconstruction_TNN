@@ -72,30 +72,10 @@ def U_SU4(circuit,qubits,params):
     circuit.append(cirq.ry(params[13])(qubits[1]))
     circuit.append(cirq.rz(params[14])(qubits[1]))
 
-# def U_SU4(circuit,qubits,params):
-#     u3_gate=[]
-#     for i in range(4):
-#         # u3_gate.append(QasmUGate(params[3*i], params[3*i+1], params[3*i+2])) # The angles are normalized to the range [0, 2) half_turns
-#         u3_gate.append(QasmUGate(0, 0, 0)) # The angles are normalized to the range [0, 2) half_turns
-#     circuit.append(u3_gate[0](qubits[0]))
-#     circuit.append(u3_gate[1](qubits[1]))
-#     circuit.append(cirq.CNOT(qubits[0],qubits[1]))
-#     circuit.append(cirq.ry(params[12])(qubits[0]))
-#     circuit.append(cirq.rz(params[13])(qubits[1]))
-#     circuit.append(cirq.CNOT(qubits[1],qubits[0]))
-#     circuit.append(cirq.ry(params[14])(qubits[0]))
-#     circuit.append(cirq.CNOT(qubits[0],qubits[1]))
-#     circuit.append(u3_gate[2](qubits[0]))
-#     circuit.append(u3_gate[3](qubits[1]))
-
 def U_TTN(circuit,qubits,params):
     circuit.append(cirq.ry(params[0])(qubits[0]))
     circuit.append(cirq.ry(params[1])(qubits[1]))
     circuit.append(cirq.CNOT(qubits[0],qubits[1]))
-    
-def pooling_ansatz1(circuit,qubits,params):
-    circuit.append((cirq.ZPowGate(exponent=params[0]))(qubits[0]).controlled_by(qubits[1]))
-    circuit.append((cirq.XPowGate(exponent=params[1]))(qubits[0]).controlled_by(qubits[1]))
     
 def conv_layer1(unitary,circuit,qubits,params):
     if unitary=='U_SU4':
@@ -133,15 +113,6 @@ def conv_layer3(unitary,circuit,qubits,params):
     # 6-7 wires
     unitary(circuit, qubits[6:8],params)
 
-def pooling_layer1(unitary,circuit,qubits,params):
-    if unitary=='U_SU4':
-        unitary=U_SU4
-    elif unitary=='U_TTN':
-        unitary=U_TTN
-    # 6-7 wires
-    unitary(circuit, qubits[0:2],params)
-
-
 def TNN_pqc(circuit, qubits, n_layers=1, n_qubits=8, symbol_offset=0):
     n_params_SU4=15
     params = sympy.symbols('theta{}:{}'.format(symbol_offset, symbol_offset + n_params_SU4*3))
@@ -154,34 +125,6 @@ def TNN_pqc(circuit, qubits, n_layers=1, n_qubits=8, symbol_offset=0):
     conv_layer3(U_SU4,circuit,qubits,params_each[2])
     
     return params
-
-# def TNN_pqc(circuit, qubits, n_layers=1, n_qubits=8, symbol_offset=0):
-#     n_params_SU4=15
-#     n_params_TTN=2
-#     params = sympy.symbols('theta{}:{}'.format(symbol_offset, symbol_offset + n_params_TTN*3))
-#     params_each=[]
-#     for i in range(3):
-#         params_each.append(params[2*i:2*i+n_params_TTN])
-#     conv_layer1(U_TTN,circuit,qubits,params_each[0])
-#     conv_layer2(U_TTN,circuit,qubits,params_each[1])
-#     conv_layer3(U_TTN,circuit,qubits,params_each[2])
-    
-#     return params
-###############################################################
-# def TNN_pqc(circuit, qubits, n_layers=1, n_qubits=8, symbol_offset=0):
-#     params = sympy.symbols('theta{}:{}'.format(symbol_offset, symbol_offset + n_qubits))
-#     for i, qubit in enumerate(qubits):
-#         #symbol = sympy.Symbol('theta_{}'.format(i+1))
-#         circuit.append(cirq.ry(params[i])(qubit))
-#     u3_gate=QasmUGate(params[3],params[4],params[5])
-#     circuit.append(u3_gate(qubits[0]))  # for layer in range(n_layers):
-#     #     for i in range(n_qubits):
-#     #         circuit.append(cirq.CZ(qubits[(n_qubits-2-i)%n_qubits], qubits[(n_qubits-1-i)%n_qubits]))
-#     #     for i, qubit in enumerate(qubits):
-#     #         #symbol = sympy.Symbol('theta_{}'.format(i+1+n_qubits*(layer+1)))
-#     #         circuit.append(cirq.ry(params[i+n_qubits*(layer+1)])(qubit))
-
-#     return params
 ###############################################################
 def qc10_pqc(circuit, qubits, n_layers=1, n_qubits=4, symbol_offset=0):
     params = sympy.symbols('theta{}:{}'.format(symbol_offset, symbol_offset + n_qubits*(1+n_layers)))
