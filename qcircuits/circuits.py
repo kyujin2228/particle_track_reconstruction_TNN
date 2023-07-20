@@ -119,7 +119,6 @@ def TNN_pqc(circuit, qubits, n_layers=1, n_qubits=8, symbol_offset=0):
     params_each=[]
     for i in range(3):
         params_each.append(params[3*i:3*i+n_params_SU4])
-    print(params_each)
     conv_layer1(U_SU4,circuit,qubits,params_each[0])
     conv_layer2(U_SU4,circuit,qubits,params_each[1])
     conv_layer3(U_SU4,circuit,qubits,params_each[2])
