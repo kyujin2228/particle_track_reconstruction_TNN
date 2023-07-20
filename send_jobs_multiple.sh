@@ -23,7 +23,8 @@ else
     then
         if [ $2 -lt 6 ]
         then
-            for i in {1..$2}
+            # for i in {1..$2}
+            for i in $(seq $2)            
             do
                 echo "$i"
                 python3 train.py $1 $i &
