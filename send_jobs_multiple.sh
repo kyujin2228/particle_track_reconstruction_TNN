@@ -2,7 +2,8 @@
 # script to send multiple training jobs
 # USAGE:
 # source send_jobs_multiple.sh [PATH_TO_CONFIG] [HOW_MANY_RUNS]
-conda activate quantum-tf
+# conda activate quantum-tf
+conda activate qtrkx
 
 # Check if there are arguments
 if [ -z "$1" ]
