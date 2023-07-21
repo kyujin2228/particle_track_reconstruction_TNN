@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     # Set GPU variables
     os.environ["CUDA_VISIBLE_DEVICES"] = config['gpu']
-    USE_GPU = (config['gpu']  != '-1')
+    USE_GPU = (config['gpu']  != '0')
 
     # Set number of thread to be used
     os.environ['OMP_NUM_THREADS'] = str(config['n_thread'])  # set num workers
