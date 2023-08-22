@@ -1,0 +1,36 @@
+train_dir   : 'data/train'
+valid_dir   : 'data/valid'
+dataset     : 'mu200_1pT'
+log_dir     : 'logs/test_qiskit_noise_con3/'
+run_type    : 'new_run'
+gpu         : '-1'
+n_files     : 40
+n_valid     : 20
+n_train     : 20
+batch_size  : 1 
+lr_c        : 0.01
+n_iters     : 1
+n_epoch     : 10
+TEST_every  : 20
+hid_dim     : 4
+network     : 'QGNN'
+optimizer: 'Adam'
+loss_func: 'BCELoss'
+n_thread    : 36
+log_verbosity: 2
+EN_qc:
+  PQC_id  : 'TNN_con3_qiskit_test'
+  IEC_id  : 'simple_encoding_y_qiskit'
+  MC_id   : 'measure_TNN_qiskit'
+  dp_noise : 0.1
+  n_layers : 1
+  repetitions: 0
+  n_qubits: 4
+NN_qc:
+  PQC_id  : 'TNN_con3_qiskit_test'
+  IEC_id  : 'simple_encoding_y_qiskit'
+  MC_id   : 'measure_TNN_qiskit'
+  dp_noise : 0.1
+  n_layers : 1
+  repetitions: 0
+  n_qubits: 4
