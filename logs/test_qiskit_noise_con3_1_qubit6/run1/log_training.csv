@@ -1,0 +1,2 @@
+accuracy,auc,loss,precision,accuracy_3,precision_3,recall_3,f1_3,accuracy_5,precision_5,recall_5,f1_5,accuracy_7,precision_7,recall_7,f1_7,duration
+0.488492, 0.732513, 0.500000, 0.000044, 0.000089, 13192
