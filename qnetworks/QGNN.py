@@ -68,7 +68,21 @@ def QCNN(unitary,params,n_wires):
     convolution3(unitary,params,wires)
 
 
-dev = qml.device("default.qubit", wires=6)
+# Error probabilities
+prob_1 = 0.01  # 1-qubit gate
+prob_2 = 0.01   # 2-qubit gate
+
+# Depolarizing quantum errors
+error_1 = noise.depolarizing_error(prob_1, 1)
+error_2 = noise.depolarizing_error(prob_2, 2)
+
+# Add errors to noise model
+noise_model = noise.NoiseModel()
+noise_model.add_all_qubit_quantum_error(error_1, ['u1', 'u2', 'u3'])
+# noise_model.add_all_qubit_quantum_error(error_2, ['cx'])
+ 
+# dev = qml.device("default.qubit", wires=6)
+dev = qml.device('qiskit.aer', wires=6, noise_model=noise_model)
 @qml.qnode(dev,interface='tf')
 def edge_circuit(data,unitary,parmas,n_wires):
     simple_embedding(n_wires,data)
