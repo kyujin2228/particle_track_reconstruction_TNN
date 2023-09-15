@@ -38,13 +38,19 @@ def batch_train_step(n_step):
                 weights = tf.concat([weights, weight],axis=0)
                 preds = tf.concat([preds, model([map2angle(X),Ri,Ro])],axis=0)
                 labels = tf.concat([labels, label],axis=0)
+        loss_fn = getattr(tf.keras.losses, 'BinaryCrossentropy')()
+        loss_eval = loss_fn(labels, preds, sample_weight=weights)
 
-        loss_eval = tf.keras.losses.binary_crossentropy(labels, preds)
+        # loss_eval = tf.keras.losses.binary_crossentropy(labels, preds)
+    print('map2angle(X).dtype',map2angle(X).dtype)
+    print('labels.dtype',labels.dtype)
+    print('preds.dtype',preds.dtype)
+    print('loss_eval.dtype',loss_eval.dtype)
+    # print('grads.dtype',grads.dtype)
     grads = tape.gradient(loss_eval, model.trainable_variables)
-    print('grads')
-    with tf.device('/gpu:0'):
-        opt.apply_gradients(zip(grads, model.trainable_variables))
-    print('opt')
+    opt.apply_gradients(zip(grads, model.trainable_variables))
+    
+
     return loss_eval, grads
 
 if __name__ == '__main__':
@@ -55,7 +61,7 @@ if __name__ == '__main__':
     # Set GPU variables
     os.environ["CUDA_VISIBLE_DEVICES"] = config['gpu']
     # USE_GPU = (config['gpu']  != '-1')
-    USE_GPU = False
+    USE_GPU = True
 
     # Set number of thread to be used
     os.environ['OMP_NUM_THREADS'] = str(config['n_thread'])  # set num workers
@@ -137,6 +143,8 @@ if __name__ == '__main__':
             t = dt.seconds + dt.microseconds * 1e-6 # time spent in seconds
 
             # Print summary
+            # print(str(datetime.datetime.now()))
+            # print(epoch+1, n_step+1, loss_eval.numpy() ,t / 60, t % 60)
             print(
                 str(datetime.datetime.now())
                 + ": Epoch: %d, Batch: %d, Loss: %.4f, Elapsed: %dm%ds" \
