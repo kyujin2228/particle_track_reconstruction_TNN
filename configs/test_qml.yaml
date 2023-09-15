@@ -1,0 +1,36 @@
+train_dir   : 'data/train'
+valid_dir   : 'data/valid'
+dataset     : 'mu200_1pT'
+log_dir     : 'logs/qml'
+run_type    : 'new_run'
+gpu         : '-1'
+n_files     : 4
+n_valid     : 2
+n_train     : 2
+batch_size  : 1 
+lr_c        : 0.01
+n_iters     : 3
+n_epoch     : 2
+TEST_every  : 1
+hid_dim     : 6
+network     : 'QGNN'
+optimizer: 'Adam'
+loss_func: 'BinaryCrossentropy'
+n_thread    : 12
+log_verbosity: 2
+EN_qc:
+  PQC_id  : 'TNN_con3_qml'
+  IEC_id  : 'simple_encoding_y_qml'
+  MC_id   : 'measure_TNN_qml'
+  # dp_noise : 0.1
+  n_layers : 1
+  repetitions: 0
+  n_qubits: 6
+NN_qc:
+  PQC_id  : 'TNN_con3_qml'
+  IEC_id  : 'simple_encoding_y_qml'
+  MC_id   : 'measure_TNN_qml'
+  # dp_noise : 0.1
+  n_layers : 1
+  repetitions: 0
+  n_qubits: 6
